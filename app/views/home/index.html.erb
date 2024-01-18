@@ -1,0 +1,65 @@
+<h1>Pagina Principal</h1>
+
+<div class="border-top">
+  <% if user_signed_in? %>
+    <%= simple_form_for @postnew  do |f| %>
+
+    <%= f.input :title, label: "Title" %>
+    <%= f.input :body, label: "What are you thinking"  %>
+
+    <%= f.submit "Post", class: "btn btn-success" %>
+
+    <% end %>
+  <% end %>
+
+</div>
+
+
+  <div class="border-top mt-2">
+    <% @post.each do |post| %>
+      <div class="card">
+        <h4 class="card-header mt-5"><%= post.user.name %></h4>
+        <div class="card-body">
+          <h5 class="card-title"><%= post.title %></h5>
+          <p class="card-text"><%= post.body %></p>
+          <% if user_signed_in? && current_user.id == post.user_id %>
+            <%= link_to 'Editar', edit_post_path(post), class: "btn btn-warning" %>
+            <%= button_to "Delete", post_path(post), method: :delete, class: "btn btn-danger" %>
+          <% else %>
+          <% end %>
+          <div class="mt-2 mb-2">
+            <%= simple_form_for [post, @commentsnew]  do |comment| %>
+            <div>
+              <%= comment.input :comentario, label: false %>
+            </div>
+              <%= comment.submit "Comment", class: "btn btn-success" %>
+
+            <% end %>
+          </div>
+          <%@comments.each do |comments|%>
+            <%if comments.post_id == post.id%>
+              <div class="card mt-1">
+                <div class="card-body">
+                  <div>
+                    <h5><%= comments.user.nickname%></h5>
+                  </div>
+                    <%= comments.comentario%>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+          <div>
+            <%= "Creado el #{post.created_at.strftime('%d/%m/%Y')}"%>
+          </div>
+        </div>
+
+
+    <% end %>
+  </div>
+
+
+  <div class="border-top mt-2">
+    <%= link_to "logout", destroy_user_session_path, data: {turbo_method: :delete} %>
+    <%= link_to "Edit Profile", edit_user_registration_path%>
+  </div>
+</div>

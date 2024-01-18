@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h2> <%= "Update your Post" %> </h2>
+
+        <%= simple_form_for @post  do |post| %>
+          <%= post.input :title, label: "title"  %>
+          <%= post.input :body, label: "Body"  %>
+          <%= post.submit "update your post", class: "btn btn-success" %>
+        <% end %>
+        <%= link_to "back", root_path, class: "btn btn-secondary mt-2" %>
+
+    </div>
+  </div>
+</div>
